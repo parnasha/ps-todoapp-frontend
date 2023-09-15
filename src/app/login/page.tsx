@@ -1,71 +1,89 @@
 import React from "react";
+import Image from "next/image";
+import cover_picture from "../../../assets/cover_picture.jpg";
+import Head from "next/head";
 
 const Login = () => {
-    return (
-        <>
-            <div className="font-bold text-center text-3xl my-8 pt-4 text-slate-600">
-                <h1>Login Form</h1>
+  return (
+    <>
+      <Head>
+        <title>Home App</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Kalam&display=swap"
+          rel="stylesheet"
+        ></link>
+      </Head>
+      <div
+        style={{ backgroundColor: "#3D259B", height: "100vh", width: "100vw" }}
+        className="flex items-center justify-center"
+      >
+        <div
+          style={{
+            backgroundColor: "#ffffff",
+            height: "80vh",
+            width: "80%",
+          }}
+          className="mx-auto rounded-md"
+        >
+          <div className="grid grid-cols-3 gap-4 ">
+            <div className="col-span-2 flex items-center justify-center">
+              <div
+                style={{ width: "500px", height: "80vh" }}
+                className="mx-auto flex items-center justify-center"
+              >
+                <Image
+                  src={cover_picture}
+                  alt="cover"
+                  // width="50px"
+                  // height="60px"
+                />
+              </div>
             </div>
-            <div
-                style={{
-                    height: "450px",
-                    width: "300px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                }}
-                className="border border-slate-500 px-8  mt-8 bg-white"
-            >
-                <form className="pt-6">
-                    <div className="mb-5 ">
-                        <div className="font-bold  text-lg my-4 text-slate-400">
-                            <h1>Email</h1>
-                        </div>
-                        <input
-                            type="email"
-                            id="email"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="email"
-                            required
-                        />
-                    </div>
-                    <div className="mb-5 mt-6">
-                        <div className="font-bold  text-lg my-4 text-slate-400">
-                            <h1>Password</h1>
-                        </div>
-                        <input
-                            type="password"
-                            id="password"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required
-                        />
-                    </div>
-                    <div className="flex items-start mb-6 ">
-                        <div className="flex items-center h-5">
-                            <input
-                                id="remember"
-                                type="checkbox"
-                                value=""
-                                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-400 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                                required
-                            />
-                        </div>
-                        <label
-                            htmlFor="remember"
-                            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                            Remember me
-                        </label>
-                    </div>
-                    <button
-                        type="submit"
-                        className="text-white text-md bg-gradient-to-r from-green-300 to-sky-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full mt-4 px-5 py-2.5 text-center "
-                    >
-                        Submit
-                    </button>
-                </form>
+            <div className="col-span-1 flex items-center justify-center">
+              <div className="grid grid-rows-4  gap-4 ">
+                <div
+                  className="row-span-1"
+                  style={{ fontFamily: "font-family: 'Kalam', cursive;" }}
+                >
+                  <h1>
+                    Hey <br /> Welcome Back
+                  </h1>
+                </div>
+                <div className="row-span-1">
+                  <div>User Name</div>
+                  <div>
+                    <input type="text" placeholder="Username" />
+                  </div>
+                </div>
+                <div className="row-span-1">
+                  <div>Password</div>
+                  <div>
+                    <input type="password" placeholder="password" />
+                  </div>
+                </div>
+                <div className="row-span-1">
+                  <div
+                    style={{
+                      height: "30px",
+                      width: "40%",
+                      backgroundImage:
+                        "linear-gradient(to right, #643ED9 , #3A1EC7)",
+                    }}
+                    className="text-center text-white rounded-md"
+                  >
+                    Login
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Login;
