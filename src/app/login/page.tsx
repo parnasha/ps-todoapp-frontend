@@ -3,7 +3,7 @@ import React from "react";
 const Login = () => {
     return (
         <>
-            <div className="font-bold text-center text-3xl my-8 text-slate-500">
+            <div className="font-bold text-center text-3xl my-8 pt-4 text-slate-600">
                 <h1>Login Form</h1>
             </div>
             <div
@@ -13,11 +13,11 @@ const Login = () => {
                     marginLeft: "auto",
                     marginRight: "auto",
                 }}
-                className="border border-slate-500 px-8  my-8"
+                className="border border-slate-500 px-8  mt-8 bg-white"
             >
-                <form>
-                    <div className="mb-6">
-                        <div className="font-bold text-center text-xl my-8 text-slate-400">
+                <form className="pt-6">
+                    <div className="mb-5 ">
+                        <div className="font-bold  text-lg my-4 text-slate-400">
                             <h1>Email</h1>
                         </div>
                         <input
@@ -28,8 +28,8 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <div className="mb-6">
-                        <div className="font-bold text-center text-xl my-8 text-slate-400">
+                    <div className="mb-5 mt-6">
+                        <div className="font-bold  text-lg my-4 text-slate-400">
                             <h1>Password</h1>
                         </div>
                         <input
@@ -39,7 +39,7 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <div className="flex items-start mb-6">
+                    <div className="flex items-start mb-6 ">
                         <div className="flex items-center h-5">
                             <input
                                 id="remember"
@@ -58,7 +58,7 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="text-white text-md bg-gradient-to-r from-green-300 to-sky-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full  px-5 py-2.5 text-center "
+                        className="text-white text-md bg-gradient-to-r from-green-300 to-sky-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full mt-4 px-5 py-2.5 text-center "
                     >
                         Submit
                     </button>
