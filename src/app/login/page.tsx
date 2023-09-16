@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import cover_picture from "../../../assets/cover_picture.jpg";
 import Head from "next/head";
+import "./page.css";
 
 const Login = () => {
   return (
@@ -43,36 +44,42 @@ const Login = () => {
               </div>
             </div>
             <div className="col-span-1 flex items-center justify-center">
-              <div className="grid grid-rows-4  gap-4 ">
+              <div className="grid grid-rows-4">
                 <div
-                  className="row-span-1"
+                  className="row-span-1 text-3xl font-bold mb-5"
                   style={{ fontFamily: "font-family: 'Kalam', cursive;" }}
                 >
-                  <h1>
-                    Hey <br /> Welcome Back
-                  </h1>
+                  <h1 style={{ color: "#4022C9" }}>Welcome Back</h1>
                 </div>
-                <div className="row-span-1">
-                  <div>User Name</div>
+                <div className="row-span-1 text-sm mt-4">
+                  <div style={{ color: "#a6a6a6" }}>User Name</div>
                   <div>
-                    <input type="text" placeholder="Username" />
+                    <input
+                      className="inputBox"
+                      type="text"
+                      placeholder="John doe"
+                    />
                   </div>
                 </div>
-                <div className="row-span-1">
-                  <div>Password</div>
+                <div className="row-span-1 mt-3">
+                  <div style={{ color: "#a6a6a6" }}>Password</div>
                   <div>
-                    <input type="password" placeholder="password" />
+                    <input
+                      className="inputBox"
+                      type="password"
+                      placeholder="*********"
+                    />
                   </div>
                 </div>
                 <div className="row-span-1">
                   <div
                     style={{
                       height: "30px",
-                      width: "40%",
+                      width: "225px",
                       backgroundImage:
                         "linear-gradient(to right, #643ED9 , #3A1EC7)",
                     }}
-                    className="text-center text-white rounded-md"
+                    className="text-center text-white rounded-sm mt-10"
                   >
                     Login
                   </div>
