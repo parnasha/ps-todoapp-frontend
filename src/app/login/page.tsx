@@ -1,10 +1,32 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import cover_picture from "../../../assets/cover_picture.jpg";
 import Head from "next/head";
 import "./page.css";
+import { useState } from "react";
+import { handleClientScriptLoad } from "next/script";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [usernamError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleClickLogin = () => {
+    console.log("clicked", username, password);
+    if (!username) {
+      setUsernameError("Username is required");
+    } else {
+      setUsernameError("");
+    }
+    if (!password) {
+      setPasswordError("Password is required");
+    } else {
+      setPasswordError("");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -58,7 +80,12 @@ const Login = () => {
                       className="inputBox"
                       type="text"
                       placeholder="John doe"
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                      }}
+                      value={username}
                     />
+                    <div className="text-red-400 text-sm">{usernamError}</div>
                   </div>
                 </div>
                 <div className="row-span-1 mt-3">
@@ -68,7 +95,12 @@ const Login = () => {
                       className="inputBox"
                       type="password"
                       placeholder="*********"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      value={password}
                     />
+                    <div className="text-red-400 text-sm">{passwordError}</div>
                   </div>
                 </div>
                 <div className="row-span-1">
@@ -80,6 +112,7 @@ const Login = () => {
                         "linear-gradient(to right, #643ED9 , #3A1EC7)",
                     }}
                     className="text-center text-white rounded-sm mt-10"
+                    onClick={handleClickLogin}
                   >
                     Login
                   </div>
