@@ -2,12 +2,11 @@
 import React from "react";
 import Image from "next/image";
 import cover_picture from "../../../assets/cover_picture.jpg";
-import Head from "next/head";
+import Link from "next/link";
 import "./page.css";
 import { useState } from "react";
-import { handleClientScriptLoad } from "next/script";
 
-const Login = () => {
+const Registration = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernamError, setUsernameError] = useState("");
@@ -29,16 +28,6 @@ const Login = () => {
 
   return (
     <>
-      <Head>
-        <title>Home App</title>
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Kalam&display=swap"
-          rel="stylesheet"
-        ></link>
-      </Head>
       <div
         style={{ backgroundColor: "#3D259B", height: "100vh", width: "100vw" }}
         className="flex items-center justify-center"
@@ -71,7 +60,7 @@ const Login = () => {
                   className="row-span-1 text-3xl font-bold mb-5"
                   style={{ fontFamily: "font-family: 'Kalam', cursive;" }}
                 >
-                  <h1 style={{ color: "#4022C9" }}>Welcome Back</h1>
+                  <h1 style={{ color: "#4022C9" }}>Registration</h1>
                 </div>
                 <div className="row-span-1 text-sm mt-4">
                   <div style={{ color: "#a6a6a6" }}>User Name</div>
@@ -114,7 +103,17 @@ const Login = () => {
                     className="text-center text-white rounded-sm mt-10"
                     onClick={handleClickLogin}
                   >
-                    Login
+                    Create account
+                  </div>
+                  <div
+                    style={{
+                      color: "#4022C9",
+                      fontSize: "12px",
+                      marginTop: "5px",
+                    }}
+                    className=" text-center cursor-pointer"
+                  >
+                    <Link href="/">Already have an account?Login</Link>
                   </div>
                 </div>
               </div>
@@ -126,4 +125,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Registration;
