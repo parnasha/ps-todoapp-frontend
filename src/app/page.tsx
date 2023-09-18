@@ -63,7 +63,7 @@ const Login = () => {
                   <h1 style={{ color: "#4022C9" }}>Login</h1>
                 </div>
                 <div className="row-span-1 text-sm mt-4">
-                  <div style={{ color: "#a6a6a6" }}>User Name</div>
+                  <div style={{ color: "#a6a6a6" }}>Username*</div>
                   <div>
                     <input
                       className="inputBox"
@@ -78,7 +78,7 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="row-span-1 mt-3">
-                  <div style={{ color: "#a6a6a6" }}>Password</div>
+                  <div style={{ color: "#a6a6a6" }}>Password*</div>
                   <div>
                     <input
                       className="inputBox"

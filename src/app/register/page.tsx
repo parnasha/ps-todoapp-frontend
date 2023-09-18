@@ -9,10 +9,13 @@ import { useState } from "react";
 const Registration = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
   const [usernamError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const handleClickLogin = () => {
+  const handleClickRegister = () => {
     console.log("clicked", username, password);
     if (!username) {
       setUsernameError("Username is required");
@@ -23,6 +26,11 @@ const Registration = () => {
       setPasswordError("Password is required");
     } else {
       setPasswordError("");
+    }
+    if (password !== newPassword) {
+      setConfirmPasswordError("Need same password");
+    } else {
+      setConfirmPasswordError("");
     }
   };
 
@@ -55,7 +63,7 @@ const Registration = () => {
               </div>
             </div>
             <div className="col-span-1 flex items-center justify-center">
-              <div className="grid grid-rows-4">
+              <div className="grid grid-rows-5">
                 <div
                   className="row-span-1 text-3xl font-bold mb-5"
                   style={{ fontFamily: "font-family: 'Kalam', cursive;" }}
@@ -63,7 +71,7 @@ const Registration = () => {
                   <h1 style={{ color: "#4022C9" }}>Registration</h1>
                 </div>
                 <div className="row-span-1 text-sm mt-4">
-                  <div style={{ color: "#a6a6a6" }}>User Name</div>
+                  <div style={{ color: "#a6a6a6" }}>Username*</div>
                   <div>
                     <input
                       className="inputBox"
@@ -78,7 +86,7 @@ const Registration = () => {
                   </div>
                 </div>
                 <div className="row-span-1 mt-3">
-                  <div style={{ color: "#a6a6a6" }}>Password</div>
+                  <div style={{ color: "#a6a6a6" }}>New Password*</div>
                   <div>
                     <input
                       className="inputBox"
@@ -92,6 +100,23 @@ const Registration = () => {
                     <div className="text-red-400 text-sm">{passwordError}</div>
                   </div>
                 </div>
+                <div className="row-span-1 mt-3">
+                  <div style={{ color: "#a6a6a6" }}>Confirm Password*</div>
+                  <div>
+                    <input
+                      className="inputBox"
+                      type="password"
+                      placeholder="*********"
+                      onChange={(e) => {
+                        setNewPassword(e.target.value);
+                      }}
+                      value={newPassword}
+                    />
+                    <div className="text-red-400 text-sm">
+                      {confirmPasswordError}
+                    </div>
+                  </div>
+                </div>
                 <div className="row-span-1">
                   <div
                     style={{
@@ -101,7 +126,7 @@ const Registration = () => {
                         "linear-gradient(to right, #643ED9 , #3A1EC7)",
                     }}
                     className="text-center text-white rounded-sm mt-10"
-                    onClick={handleClickLogin}
+                    onClick={handleClickRegister}
                   >
                     Create account
                   </div>
