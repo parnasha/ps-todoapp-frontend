@@ -31,7 +31,8 @@ export async function register(
     name: string,
     email: string,
     password: string,
-    gender: string
+    gender: string,
+    dob: string
 ) {
     const mutation = gql`
         mutation (
@@ -57,31 +58,37 @@ export async function register(
         variables: {
             name: name,
             email: email,
-            dob: "1997-12-11",
+            dob: dob,
             gender: gender,
             password: password,
         },
     });
 
-    console.log(data);
+    return data;
 }
 
 export async function login(email: string, password: string) {
-    const mutation = gql`
-        mutation ($email: String!, $password: String!) {
-            loginUser(email: $email, password: $password) {
-                token
+    try {
+        const mutation = gql`
+            mutation ($email: String!, $password: String!) {
+                loginUser(email: $email, password: $password) {
+                    token
+                }
             }
-        }
-    `;
-    const { data } = await client.mutate({
-        mutation,
-        variables: {
-            email: email,
+        `;
+        const { data } = await client.mutate({
+            mutation,
+            variables: {
+                email: email,
 
-            password: password,
-        },
-    });
+                password: password,
+            },
+        });
 
-    console.log(data);
+        console.log(data);
+
+        return data;
+    } catch (error) {
+        return error;
+    }
 }

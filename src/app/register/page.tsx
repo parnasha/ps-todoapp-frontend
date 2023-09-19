@@ -6,6 +6,8 @@ import Link from "next/link";
 import "./page.css";
 import { useState } from "react";
 import { register } from "@/graphql/queries";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Registration = () => {
     const [username, setUsername] = useState("");
@@ -13,11 +15,12 @@ const Registration = () => {
     // const [newPassword, setNewPassword] = useState("");
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
-
+    const [dob, setDob] = useState("");
     const [emailError, setEmailError] = useState("");
     const [usernamError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [genderError, setGenderError] = useState("");
+    const [dobError, setDobError] = useState("");
 
     const handleClickRegister = async () => {
         console.log("clicked", username, password);
@@ -41,8 +44,13 @@ const Registration = () => {
         } else {
             setGenderError("");
         }
+        if (!dob) {
+            setDobError("Password is required");
+        } else {
+            setDobError("");
+        }
 
-        await register(username, email, password, gender);
+        await register(username, email, password, gender, dob);
     };
 
     return (
@@ -80,7 +88,7 @@ const Registration = () => {
                         <div className="col-span-1 flex items-center justify-center">
                             <div className="grid grid-rows-6">
                                 <div
-                                    className="row-span-1 text-3xl font-bold mb-5"
+                                    className="row-span-1 text-3xl font-bold "
                                     style={{
                                         fontFamily:
                                             "font-family: 'Kalam', cursive;",
@@ -199,6 +207,26 @@ const Registration = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="row-span-1 mt-4">
+                                    <div style={{ color: "#a6a6a6" }}>
+                                        Date of Birth*
+                                    </div>
+                                    <div>
+                                        <DatePicker
+                                            selected={dob}
+                                            onChange={(date: any) =>
+                                                setDob(date)
+                                            }
+                                            dateFormat="yyyy-MM-dd"
+                                            placeholderText="Select DOB"
+                                            className="inputBox"
+                                        />
+                                        <div className="text-red-400 text-sm">
+                                            {dobError}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="row-span-1">
                                     <div
                                         style={{

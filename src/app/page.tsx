@@ -6,12 +6,17 @@ import Link from "next/link";
 import "./page.css";
 import { useState, useEffect } from "react";
 import { getUsers, login } from "@/graphql/queries";
+import { useRouter } from "next/navigation";
+import { getToken, setToken } from "../token";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [loginError, setLoginError] = useState("");
+
+    const router = useRouter();
     console.log("parnasha");
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +38,19 @@ const Login = () => {
         } else {
             setPasswordError("");
         }
-        await login(email, password);
+
+        if (email && password) {
+            const loginResult = await login(email, password);
+
+            if (loginResult.loginUser.token) {
+                setToken(loginResult.loginUser.token);
+                router.push("/dashboard");
+            } else {
+                setLoginError(
+                    "Your email and password do not match. Please try again."
+                );
+            }
+        }
     };
     const handleRegisterNow = () => {};
     return (
@@ -143,6 +160,11 @@ const Login = () => {
                                             Don't have an account?Register now
                                         </Link>
                                     </div>
+                                    {loginError && (
+                                        <div className="text-red-400 text-sm mt-3">
+                                            {loginError}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
