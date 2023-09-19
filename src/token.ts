@@ -1,21 +1,15 @@
-// tokenAccess.ts
-
-// const tokenAccess = (token: string): void => {
-//     console.log(token);
-//     setToken;
-// };
-
-// export default tokenAccess;
-let accessToken: string | null = null;
-
 export const getToken = (): string | null => {
-    return accessToken;
+  return localStorage.getItem("accessToken");
 };
 
 export const setToken = (token: string | null): void => {
-    accessToken = token;
+  if (token) {
+    localStorage.setItem("accessToken", token);
+  } else {
+    localStorage.removeItem("accessToken");
+  }
 };
 
 export const clearToken = () => {
-    accessToken = null;
+  localStorage.removeItem("accessToken");
 };
