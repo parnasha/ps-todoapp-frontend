@@ -22,7 +22,10 @@ const Login = () => {
     const token = getToken();
 
     if (token) {
+      setIsAuthenticated(true);
       router.push("/dashboard");
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -55,7 +58,7 @@ const Login = () => {
     <>
       {isAuthenticated === null ? (
         <>Loading..</>
-      ) : isAuthenticated ? (
+      ) : !isAuthenticated ? (
         <>
           <div
             style={{
