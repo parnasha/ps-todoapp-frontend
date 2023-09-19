@@ -10,11 +10,14 @@ import { register } from "@/graphql/queries";
 const Registration = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
+    // const [newPassword, setNewPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [gender, setGender] = useState("");
 
+    const [emailError, setEmailError] = useState("");
     const [usernamError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [genderError, setGenderError] = useState("");
 
     const handleClickRegister = async () => {
         console.log("clicked", username, password);
@@ -23,17 +26,23 @@ const Registration = () => {
         } else {
             setUsernameError("");
         }
+        if (!email) {
+            setEmailError("Email is required");
+        } else {
+            setEmailError("");
+        }
         if (!password) {
             setPasswordError("Password is required");
         } else {
             setPasswordError("");
         }
-        if (password !== newPassword) {
-            setConfirmPasswordError("Need same password");
+        if (!gender) {
+            setGenderError("Password is required");
         } else {
-            setConfirmPasswordError("");
+            setGenderError("");
         }
-        await register(username, password);
+
+        await register(username, email, password, gender);
     };
 
     return (
@@ -69,7 +78,7 @@ const Registration = () => {
                             </div>
                         </div>
                         <div className="col-span-1 flex items-center justify-center">
-                            <div className="grid grid-rows-5">
+                            <div className="grid grid-rows-6">
                                 <div
                                     className="row-span-1 text-3xl font-bold mb-5"
                                     style={{
@@ -81,7 +90,7 @@ const Registration = () => {
                                         Registration
                                     </h1>
                                 </div>
-                                <div className="row-span-1 text-sm mt-4">
+                                <div className="row-span-1 text-sm ">
                                     <div style={{ color: "#a6a6a6" }}>
                                         Username*
                                     </div>
@@ -100,9 +109,28 @@ const Registration = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row-span-1 mt-3">
+                                <div className="row-span-1 ">
                                     <div style={{ color: "#a6a6a6" }}>
-                                        New Password*
+                                        Email*
+                                    </div>
+                                    <div>
+                                        <input
+                                            className="inputBox"
+                                            type="email"
+                                            placeholder="Enter your email address"
+                                            onChange={(e) => {
+                                                setEmail(e.target.value);
+                                            }}
+                                            value={email}
+                                        />
+                                        <div className="text-red-400 text-sm">
+                                            {emailError}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row-span-1 ">
+                                    <div style={{ color: "#a6a6a6" }}>
+                                        Password*
                                     </div>
                                     <div>
                                         <input
@@ -119,22 +147,55 @@ const Registration = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row-span-1 mt-3">
+                                <div className="row-span-1 ">
                                     <div style={{ color: "#a6a6a6" }}>
-                                        Confirm Password*
+                                        Gender*
                                     </div>
                                     <div>
-                                        <input
+                                        {/* <input
                                             className="inputBox"
-                                            type="password"
-                                            placeholder="*********"
+                                            type="gender"
+                                            placeholder="Gender"
                                             onChange={(e) => {
-                                                setNewPassword(e.target.value);
+                                                setGender(e.target.value);
                                             }}
-                                            value={newPassword}
-                                        />
+                                            value={gender}
+                                        /> */}
+                                        <div className="">
+                                            <div className="mb-2 block">
+                                                <input
+                                                    type="radio"
+                                                    className=""
+                                                    name="gender"
+                                                    value="male"
+                                                    checked={gender === "male"}
+                                                    onChange={(e) =>
+                                                        setGender(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                Male
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="radio"
+                                                    name="gender"
+                                                    value="female"
+                                                    checked={
+                                                        gender === "female"
+                                                    }
+                                                    onChange={(e) =>
+                                                        setGender(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                Female
+                                            </div>
+                                        </div>
                                         <div className="text-red-400 text-sm">
-                                            {confirmPasswordError}
+                                            {genderError}
                                         </div>
                                     </div>
                                 </div>

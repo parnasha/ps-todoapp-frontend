@@ -27,7 +27,12 @@ export async function getUsers() {
 
     console.log(data);
 }
-export async function register(name: string, password: string) {
+export async function register(
+    name: string,
+    email: string,
+    password: string,
+    gender: string
+) {
     const mutation = gql`
         mutation (
             $name: String!
@@ -51,9 +56,9 @@ export async function register(name: string, password: string) {
         mutation,
         variables: {
             name: name,
-            email: "sekhArkaail.com",
+            email: email,
             dob: "1997-12-11",
-            gender: "female",
+            gender: gender,
             password: password,
         },
     });
