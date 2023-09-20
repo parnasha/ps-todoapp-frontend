@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getToken, clearToken } from "../../token";
 import "./page.css";
 import { addTask, getTodo } from "@/graphql/queries";
+import Card from "@/card";
 
 const Dashboard: React.FC = () => {
     const router = useRouter();
@@ -14,6 +15,7 @@ const Dashboard: React.FC = () => {
     );
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [task, setTask] = useState([]);
 
     useEffect(() => {
         const token = getToken();
@@ -32,9 +34,9 @@ const Dashboard: React.FC = () => {
         console.log(title, description, "clicked");
         const { data } = await addTask(title, description);
         console.log(data);
-
         await getTodo();
     };
+
     return (
         <div>
             {isAuthenticated === null ? (
@@ -157,7 +159,7 @@ const Dashboard: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="col-span-3 rounded-md bg-white">
-                                            2
+                                            <Card />
                                         </div>
                                     </div>
                                 </div>

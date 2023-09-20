@@ -23,7 +23,7 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const client = new ApolloClient({
     link: concat(authLink, httpLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ addTypename: true }),
 });
 
 export async function getUsers() {
@@ -145,7 +145,7 @@ export async function getTodo() {
             }
         `;
         const { data } = await client.query({ query });
-        console.log(data);
+        // console.log(data);
         return data.getTodosByUser;
     } catch (error) {
         console.log(error);
