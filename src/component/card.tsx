@@ -2,13 +2,25 @@
 import React from "react";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import "./card.css";
+
 interface CardProps {
   id: string;
   title: string;
   description: string;
+  onDeleteClick: (id: string) => void; // Callback function to handle delete
 }
 
-const Card: React.FC<CardProps> = ({ id, title, description }) => {
+const Card: React.FC<CardProps> = ({
+  id,
+  title,
+  description,
+  onDeleteClick,
+}) => {
+  const handleDeleteClick = () => {
+    // Call the onDeleteClick callback with the card ID
+    onDeleteClick(id);
+  };
+
   return (
     <>
       <div className="cardWrapper">
@@ -35,8 +47,8 @@ const Card: React.FC<CardProps> = ({ id, title, description }) => {
               <div className="col-span-1">
                 <IoMdCreate />
               </div>
-              <div className="col-span-1 ">
-                <IoMdTrash></IoMdTrash>
+              <div className="col-span-1">
+                <IoMdTrash onClick={handleDeleteClick} />
               </div>
             </div>
           </div>

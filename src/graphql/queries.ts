@@ -128,6 +128,7 @@ export async function addTask(title: string, description: string) {
           query: gql`
             query GetTodosByUser {
               getTodosByUser {
+                id
                 title
                 description
                 isDone
@@ -158,5 +159,41 @@ export async function getTodo() {
     return data.getTodosByUser;
   } catch (error) {
     console.log("getTodo error", error);
+  }
+}
+
+export async function deleteTask(id: string) {
+  try {
+    const mutation = gql`
+      mutation ($todoId: ID!) {
+        deleteTodo(todoId: $todoId)
+      }
+    `;
+    const { data } = await client.mutate({
+      mutation,
+      variables: {
+        todoId: id,
+      },
+      refetchQueries: [
+        {
+          query: gql`
+            query GetTodosByUser {
+              getTodosByUser {
+                id
+                title
+                description
+                isDone
+              }
+            }
+          `,
+        },
+      ],
+    });
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    return error;
   }
 }

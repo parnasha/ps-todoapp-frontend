@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken, clearToken } from "../../token";
 import "./page.css";
-import { addTask, getTodo } from "@/graphql/queries";
+import { addTask, deleteTask, getTodo } from "@/graphql/queries";
 import Card from "@/component/card";
 
 const Dashboard: React.FC = () => {
@@ -48,9 +48,19 @@ const Dashboard: React.FC = () => {
       setTimeout(function () {
         fetchData();
       }, 1000);
+      setTitle("");
+      setDescription("");
     } catch (error) {
       console.error("An error occurred:", error);
     }
+  };
+
+  const handleDeleteCard = async (id: string) => {
+    console.log(id);
+    await deleteTask(id);
+    setTimeout(function () {
+      fetchData();
+    }, 1000);
   };
 
   const fetchData = async () => {
@@ -181,6 +191,9 @@ const Dashboard: React.FC = () => {
                             id={task.id}
                             title={task.title}
                             description={task.description}
+                            onDeleteClick={(id) => {
+                              handleDeleteCard(id);
+                            }} // Pass the delete callback
                           />
                         );
                       })}
