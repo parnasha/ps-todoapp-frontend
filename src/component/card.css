@@ -1,0 +1,10 @@
+.cardWrapper {
+  width: 90%;
+  height: 80px;
+  background-image: linear-gradient(to right, #e8e2f9, rgb(246, 246, 246));
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  padding: 10px;
+}
