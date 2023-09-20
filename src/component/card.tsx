@@ -7,7 +7,7 @@ interface CardProps {
   id: string;
   title: string;
   description: string;
-  onDeleteClick: (id: string) => void; // Callback function to handle delete
+  onDeleteClick: (id: string) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -17,7 +17,6 @@ const Card: React.FC<CardProps> = ({
   onDeleteClick,
 }) => {
   const handleDeleteClick = () => {
-    // Call the onDeleteClick callback with the card ID
     onDeleteClick(id);
   };
 
@@ -42,13 +41,20 @@ const Card: React.FC<CardProps> = ({
               </div>
             </div>
           </div>
-          <div className="...">
-            <div className="grid grid-rows-2 grid-flow-col items-center justify-center gap-4">
-              <div className="col-span-1">
-                <IoMdCreate />
+          <div>
+            <div className="grid grid-cols-4 py-5">
+              <div className="col-span-2">
+                <div className="cursor-pointer ">
+                  <IoMdCreate style={{ fontSize: "24px", color: "#908e94" }} />
+                </div>
               </div>
-              <div className="col-span-1">
-                <IoMdTrash onClick={handleDeleteClick} />
+              <div className="col-span-2">
+                <div className="cursor-pointer">
+                  <IoMdTrash
+                    style={{ fontSize: "24px", color: "#ff7373" }}
+                    onClick={handleDeleteClick}
+                  />
+                </div>
               </div>
             </div>
           </div>
