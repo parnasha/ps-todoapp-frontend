@@ -1,12 +1,28 @@
+import { getToken } from "../token";
 import {
     ApolloClient,
     InMemoryCache,
     ApolloProvider,
     gql,
+    ApolloLink,
+    createHttpLink,
+    concat,
 } from "@apollo/client";
 
+const httpLink = createHttpLink({ uri: "http://localhost:5000/graphql" });
+
+const authLink = new ApolloLink((operation, forward) => {
+    const accessToken = getToken();
+    if (accessToken) {
+        operation.setContext({
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
+    }
+    return forward(operation);
+});
+
 const client = new ApolloClient({
-    uri: "http://localhost:5000/graphql",
+    link: concat(authLink, httpLink),
     cache: new InMemoryCache(),
 });
 
@@ -90,5 +106,48 @@ export async function login(email: string, password: string) {
         return data;
     } catch (error) {
         return error;
+    }
+}
+
+export async function addTask(title: string, description: string) {
+    try {
+        const mutation = gql`
+            mutation ($title: String!, $description: String!) {
+                createTodo(title: $title, description: $description) {
+                    title
+                    description
+                    isDone
+                }
+            }
+        `;
+        const { data } = await client.mutate({
+            mutation,
+            variables: {
+                title: title,
+
+                description: description,
+            },
+        });
+
+        return data;
+    } catch (error) {}
+}
+
+export async function getTodo() {
+    try {
+        const query = gql`
+            query GetTodosByUser {
+                getTodosByUser {
+                    title
+                    description
+                    isDone
+                }
+            }
+        `;
+        const { data } = await client.query({ query });
+        console.log(data);
+        return data.getTodosByUser;
+    } catch (error) {
+        console.log(error);
     }
 }
