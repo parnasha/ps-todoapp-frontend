@@ -5,8 +5,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken, clearToken } from "../../token";
 import "./page.css";
+import "react-notifications/lib/notifications.css";
 import { addTask, deleteTask, getTodo } from "@/graphql/queries";
 import Card from "@/component/card";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const Dashboard: React.FC = () => {
   // type for a single todo item
@@ -36,6 +41,33 @@ const Dashboard: React.FC = () => {
     fetchData();
   }, []);
 
+  const createNotification = (type: string) => {
+    console.log("success");
+    switch (type) {
+      case "info":
+        NotificationManager.info("Info message");
+        break;
+      case "success":
+        console.log("success");
+        NotificationManager.success("Success!", "Task added successfully");
+        break;
+      case "warning":
+        NotificationManager.warning(
+          "Deleted!",
+          "Task deleted successfully",
+          3000
+        );
+        break;
+      case "error":
+        NotificationManager.error(
+          "Deleted!",
+          "Task deleted successfully",
+          3000
+        );
+        break;
+    }
+  };
+
   const handleLogout = () => {
     clearToken();
     router.push("/");
@@ -45,7 +77,9 @@ const Dashboard: React.FC = () => {
     try {
       await addTask(title, description);
       // After adding the task, trigger a refetch of data
+
       setTimeout(function () {
+        createNotification("success");
         fetchData();
       }, 1000);
       setTitle("");
@@ -58,7 +92,9 @@ const Dashboard: React.FC = () => {
   const handleDeleteCard = async (id: string) => {
     console.log(id);
     await deleteTask(id);
+
     setTimeout(function () {
+      createNotification("error");
       fetchData();
     }, 1000);
   };
@@ -205,6 +241,7 @@ const Dashboard: React.FC = () => {
           </div>
         </>
       ) : null}
+      <NotificationContainer />
     </div>
   );
 };
