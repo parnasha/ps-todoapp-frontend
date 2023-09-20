@@ -145,7 +145,7 @@ export async function getTodo() {
             }
         `;
         const { data } = await client.query({ query });
-        // console.log(data);
+        console.log(data);
         return data.getTodosByUser;
     } catch (error) {
         console.log(error);
