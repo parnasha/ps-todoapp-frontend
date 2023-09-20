@@ -12,6 +12,7 @@ const Dashboard: React.FC = () => {
   // type for a single todo item
   type TodoItem = {
     __typename: string;
+    id: string;
     title: string;
     description: string;
     isDone: boolean;
@@ -177,6 +178,7 @@ const Dashboard: React.FC = () => {
                         return (
                           <Card
                             key={index}
+                            id={task.id}
                             title={task.title}
                             description={task.description}
                           />

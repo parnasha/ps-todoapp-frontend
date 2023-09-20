@@ -147,6 +147,7 @@ export async function getTodo() {
     const query = gql`
       query GetTodosByUser {
         getTodosByUser {
+          id
           title
           description
           isDone
