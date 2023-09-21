@@ -201,3 +201,100 @@ export async function deleteTask(id: string) {
         return error;
     }
 }
+// Function for editing a task
+export async function editTask(
+    id: string,
+    title: string,
+    description: string,
+    isDone: Boolean
+) {
+    try {
+        const mutation = gql`
+            mutation EditTodo(
+                $id: ID!
+                $title: String
+                $description: String
+                $isDone: Boolean
+            ) {
+                editTodo(
+                    _id: $id
+                    title: $title
+                    description: $description
+                    isDone: $isDone
+                ) {
+                    id
+                    title
+                    description
+                    isDone
+                }
+            }
+        `;
+        const { data } = await client.mutate({
+            mutation,
+            variables: {
+                todoId: id,
+                title: title,
+                description: description,
+                isDone: isDone,
+            },
+            refetchQueries: [
+                {
+                    query: gql`
+                        query GetTodosByUser {
+                            getTodosByUser {
+                                id
+                                title
+                                description
+                                isDone
+                            }
+                        }
+                    `,
+                },
+            ],
+        });
+
+        console.log(data);
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+// Function for checking a task
+export async function checkTask(id: string, isDone: Boolean) {
+    try {
+        const mutation = gql`
+            mutation EditTodo($id: ID!, $isDone: Boolean) {
+                editTodo(_id: $id, isDone: $isDone) {
+                    id
+                    isDone
+                }
+            }
+        `;
+        const { data } = await client.mutate({
+            mutation,
+            variables: {
+                todoId: id,
+                isDone: isDone,
+            },
+            refetchQueries: [
+                {
+                    query: gql`
+                        query GetTodosByUser {
+                            getTodosByUser {
+                                id
+                                isDone
+                            }
+                        }
+                    `,
+                },
+            ],
+        });
+
+        console.log(data);
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}

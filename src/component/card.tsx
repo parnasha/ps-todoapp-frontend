@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 import "./card.css";
 
 // Define the CardProps interface for component props
@@ -19,6 +20,12 @@ const Card: React.FC<CardProps> = ({
     description,
     onDeleteClick,
 }) => {
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handlEditing = () => {
+        setIsEditing((state) => !state);
+    };
+
     const handleDeleteClick = () => {
         onDeleteClick(id); // Call the onDeleteClick callback with the card's id
     };
@@ -37,17 +44,31 @@ const Card: React.FC<CardProps> = ({
                             <div className="col-span-1">
                                 <div className="text-xl font-semibold">
                                     {/* Display the title with a specific color */}
-                                    <h1 style={{ color: "#4022C9" }}>
-                                        {title}
-                                    </h1>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            defaultValue={title}
+                                        />
+                                    ) : (
+                                        <h1 style={{ color: "#4022C9" }}>
+                                            {title}
+                                        </h1>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-span-1">
                                 <div className="text-md">
                                     {/* Display the description with a specific color */}
-                                    <h1 style={{ color: "#9a989e" }}>
-                                        {description}
-                                    </h1>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            defaultValue={description}
+                                        />
+                                    ) : (
+                                        <h1 style={{ color: "#9a989e" }}>
+                                            {description}
+                                        </h1>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -62,19 +83,24 @@ const Card: React.FC<CardProps> = ({
                                             fontSize: "24px",
                                             color: "#908e94",
                                         }}
+                                        onClick={handlEditing}
                                     />
                                 </div>
                             </div>
                             <div className="col-span-2">
                                 <div className="cursor-pointer">
                                     {/* Display the delete icon with specific styles */}
-                                    <IoMdTrash
-                                        style={{
-                                            fontSize: "24px",
-                                            color: "#ff7373",
-                                        }}
-                                        onClick={handleDeleteClick} // Trigger the delete action on click
-                                    />
+                                    {isEditing ? (
+                                        <AiOutlineCheckCircle />
+                                    ) : (
+                                        <IoMdTrash
+                                            style={{
+                                                fontSize: "24px",
+                                                color: "#ff7373",
+                                            }}
+                                            onClick={handleDeleteClick} // Trigger the delete action on click
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
