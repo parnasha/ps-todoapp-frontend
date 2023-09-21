@@ -56,6 +56,13 @@ const Dashboard: React.FC = () => {
                     3000
                 );
                 break;
+            case "warning":
+                NotificationManager.warning(
+                    "Edited!",
+                    "Task edited successfully",
+                    3000
+                );
+                break;
             default:
                 break;
         }
@@ -95,7 +102,7 @@ const Dashboard: React.FC = () => {
     ) => {
         await updateTask(id, editedTitle, editedDescription);
         setTimeout(function () {
-            createNotification("error");
+            createNotification("warning");
             fetchData();
         }, 1000);
     };
