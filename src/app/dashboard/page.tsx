@@ -99,6 +99,10 @@ const Dashboard: React.FC = () => {
   const handleCheckTask = async (id: string, isDone: boolean) => {
     console.log(id, isDone);
     await checkTask(id, isDone);
+
+    setTimeout(function () {
+      fetchData();
+    }, 1000);
   };
 
   const handleSaveEdit = async (
@@ -235,14 +239,33 @@ const Dashboard: React.FC = () => {
                         overflow: "auto",
                       }}
                     >
-                      {todoList.map((task, index) => (
+                      {todoList.map((task, index) =>
+                        task.isDone !== true ? (
+                          <Card
+                            key={index}
+                            id={task.id}
+                            title={task.title}
+                            description={task.description}
+                            isDone={task.isDone}
+                            onSaveEdit={handleSaveEdit}
+                            onDeleteClick={(id) => {
+                              handleDeleteCard(id);
+                            }}
+                            onCheckTask={(id, isDone) => {
+                              handleCheckTask(id, isDone);
+                            }}
+                          />
+                        ) : null
+                      )}
+
+                      {/* {todoList.map((task, index) => (
                         <Card
                           key={index}
                           id={task.id}
                           title={task.title}
                           description={task.description}
                           isDone={task.isDone}
-                          onSaveEdit={handleSaveEdit} // Pass the save callback
+                          onSaveEdit={handleSaveEdit}
                           onDeleteClick={(id) => {
                             handleDeleteCard(id);
                           }}
@@ -250,7 +273,7 @@ const Dashboard: React.FC = () => {
                             handleCheckTask(id, isDone);
                           }}
                         />
-                      ))}
+                      ))} */}
                     </div>
                   </div>
                 </div>

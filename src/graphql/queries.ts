@@ -253,6 +253,20 @@ export async function checkTask(id: string, isDone: Boolean) {
         id: id,
         isDone: isDone,
       },
+      refetchQueries: [
+        {
+          query: gql`
+            query GetTodosByUser {
+              getTodosByUser {
+                id
+                title
+                description
+                isDone
+              }
+            }
+          `,
+        },
+      ],
     });
 
     console.log(data);
