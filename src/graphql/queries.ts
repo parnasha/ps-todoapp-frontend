@@ -202,61 +202,37 @@ export async function deleteTask(id: string) {
     }
 }
 // Function for editing a task
-export async function editTask(
+export async function updateTask(
     id: string,
     title: string,
-    description: string,
-    isDone: Boolean
+    description: string
 ) {
     try {
+        console.log(id, title, description);
         const mutation = gql`
-            mutation EditTodo(
-                $id: ID!
-                $title: String
-                $description: String
-                $isDone: Boolean
-            ) {
-                editTodo(
-                    _id: $id
-                    title: $title
-                    description: $description
-                    isDone: $isDone
-                ) {
+            mutation ($id: ID!, $title: String, $description: String) {
+                editTodo(_id: $id, title: $title, description: $description) {
                     id
                     title
                     description
-                    isDone
                 }
             }
         `;
+
         const { data } = await client.mutate({
             mutation,
             variables: {
-                todoId: id,
+                id: id,
                 title: title,
                 description: description,
-                isDone: isDone,
             },
-            refetchQueries: [
-                {
-                    query: gql`
-                        query GetTodosByUser {
-                            getTodosByUser {
-                                id
-                                title
-                                description
-                                isDone
-                            }
-                        }
-                    `,
-                },
-            ],
         });
 
         console.log(data);
 
         return data;
     } catch (error) {
+        console.log(error);
         return error;
     }
 }

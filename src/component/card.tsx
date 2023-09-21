@@ -5,110 +5,121 @@ import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import "./card.css";
 
-// Define the CardProps interface for component props
 interface CardProps {
-    id: string; // Unique identifier for the card
-    title: string; // Title text to display
-    description: string; // Description text to display
-    onDeleteClick: (id: string) => void; // Callback function for delete action
+    id: string;
+    title: string;
+    description: string;
+    onDeleteClick: (id: string) => void;
+    onSaveEdit: (
+        id: string,
+        editedTitle: string,
+        editedDescription: string
+    ) => void;
 }
 
-// Define the Card component
 const Card: React.FC<CardProps> = ({
     id,
     title,
     description,
     onDeleteClick,
+    onSaveEdit,
 }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(title);
+    const [editedDescription, setEditedDescription] = useState(description);
 
-    const handlEditing = () => {
+    const handleEditing = () => {
         setIsEditing((state) => !state);
     };
 
-    const handleDeleteClick = () => {
-        onDeleteClick(id); // Call the onDeleteClick callback with the card's id
+    const handleSaveClick = () => {
+        onSaveEdit(id, editedTitle, editedDescription);
+        setIsEditing(false); // Disable editing mode after saving
     };
 
     return (
-        <>
-            {/* Start of the cardWrapper */}
-            <div className="cardWrapper">
-                <div className="grid grid-cols-5 gap-1">
-                    <div className="flex items-center justify-center">
-                        <input type="checkbox" />{" "}
-                        {/* Checkbox for card selection */}
-                    </div>
-                    <div className="col-span-3">
-                        <div className="grid grid-rows-2 grid-flow-col">
-                            <div className="col-span-1">
-                                <div className="text-xl font-semibold">
-                                    {/* Display the title with a specific color */}
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            defaultValue={title}
-                                        />
-                                    ) : (
-                                        <h1 style={{ color: "#4022C9" }}>
-                                            {title}
-                                        </h1>
-                                    )}
-                                </div>
+        <div className="cardWrapper">
+            <div className="grid grid-cols-5 gap-1">
+                <div className="flex items-center justify-center">
+                    <input type="checkbox" />
+                </div>
+                <div className="col-span-3">
+                    <div className="grid grid-rows-2 grid-flow-col">
+                        <div className="col-span-1">
+                            <div className="text-xl font-semibold">
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={editedTitle}
+                                        onChange={(e) =>
+                                            setEditedTitle(e.target.value)
+                                        }
+                                    />
+                                ) : (
+                                    <h1 style={{ color: "#4022C9" }}>
+                                        {title}
+                                    </h1>
+                                )}
                             </div>
-                            <div className="col-span-1">
-                                <div className="text-md">
-                                    {/* Display the description with a specific color */}
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            defaultValue={description}
-                                        />
-                                    ) : (
-                                        <h1 style={{ color: "#9a989e" }}>
-                                            {description}
-                                        </h1>
-                                    )}
-                                </div>
+                        </div>
+                        <div className="col-span-1">
+                            <div className="text-md">
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={editedDescription}
+                                        onChange={(e) =>
+                                            setEditedDescription(e.target.value)
+                                        }
+                                    />
+                                ) : (
+                                    <h1 style={{ color: "#9a989e" }}>
+                                        {description}
+                                    </h1>
+                                )}
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div className="grid grid-cols-4 py-5">
-                            <div className="col-span-2">
-                                <div className="cursor-pointer ">
-                                    {/* Display the edit icon with specific styles */}
+                </div>
+                <div>
+                    <div className="grid grid-cols-4 py-5">
+                        <div className="col-span-2">
+                            <div className="cursor-pointer">
+                                {isEditing ? (
+                                    <AiOutlineCheckCircle
+                                        style={{
+                                            fontSize: "24px",
+                                            color: "#00cc00", // Save icon color
+                                        }}
+                                        onClick={handleSaveClick}
+                                    />
+                                ) : (
                                     <IoMdCreate
                                         style={{
                                             fontSize: "24px",
                                             color: "#908e94",
                                         }}
-                                        onClick={handlEditing}
+                                        onClick={handleEditing}
                                     />
-                                </div>
+                                )}
                             </div>
-                            <div className="col-span-2">
-                                <div className="cursor-pointer">
-                                    {/* Display the delete icon with specific styles */}
-                                    {isEditing ? (
-                                        <AiOutlineCheckCircle />
-                                    ) : (
-                                        <IoMdTrash
-                                            style={{
-                                                fontSize: "24px",
-                                                color: "#ff7373",
-                                            }}
-                                            onClick={handleDeleteClick} // Trigger the delete action on click
-                                        />
-                                    )}
-                                </div>
+                        </div>
+                        <div className="col-span-2">
+                            <div className="cursor-pointer">
+                                <IoMdTrash
+                                    style={{
+                                        fontSize: "24px",
+                                        color: "#ff7373",
+                                    }}
+                                    onClick={() => onDeleteClick(id)}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
-export default Card; // Export the Card component
+export default Card;

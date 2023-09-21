@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 import { getToken, clearToken } from "../../token";
 import "./page.css";
 import "react-notifications/lib/notifications.css";
-import { addTask, deleteTask, getTodo } from "@/graphql/queries";
+import { addTask, deleteTask, getTodo, updateTask } from "@/graphql/queries";
 import Card from "@/component/card";
 import {
     NotificationContainer,
     NotificationManager,
 } from "react-notifications";
+import { isDataView } from "util/types";
 
 const Dashboard: React.FC = () => {
-    // type for a single todo item
     type TodoItem = {
         __typename: string;
         id: string;
@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [todoList, setTodoList] = useState<TodoItem[]>([]);
-    // Checking  authentication status and fetch data on component load
+
     useEffect(() => {
         const token = getToken();
         setIsAuthenticated(token !== null);
@@ -38,28 +38,15 @@ const Dashboard: React.FC = () => {
             router.push("/");
         }
 
-        // Fetch todos from the database on initial load
         fetchData();
     }, []);
-    // Function to create notifications
+
     const createNotification = (type: string) => {
-        console.log("success");
         switch (type) {
-            case "info":
-                NotificationManager.info("Info message");
-                break;
             case "success":
-                console.log("success");
                 NotificationManager.success(
                     "Success!",
                     "Task added successfully"
-                );
-                break;
-            case "warning":
-                NotificationManager.warning(
-                    "Deleted!",
-                    "Task deleted successfully",
-                    3000
                 );
                 break;
             case "error":
@@ -69,19 +56,19 @@ const Dashboard: React.FC = () => {
                     3000
                 );
                 break;
+            default:
+                break;
         }
     };
-    // Function to handle user logout
+
     const handleLogout = () => {
         clearToken();
         router.push("/");
     };
-    // Function for adding task
+
     const handleAddTask = async () => {
         try {
             await addTask(title, description);
-            // After adding the task, trigger a refetch of data
-
             setTimeout(function () {
                 createNotification("success");
                 fetchData();
@@ -92,19 +79,28 @@ const Dashboard: React.FC = () => {
             console.error("An error occurred:", error);
         }
     };
-    // Function to handle card (task) deletion
-    const handleDeleteCard = async (id: string) => {
-        console.log(id);
-        await deleteTask(id);
 
+    const handleDeleteCard = async (id: string) => {
+        await deleteTask(id);
         setTimeout(function () {
             createNotification("error");
             fetchData();
         }, 1000);
     };
-    // Function to fetch todo data
+
+    const handleSaveEdit = async (
+        id: string,
+        editedTitle: string,
+        editedDescription: string
+    ) => {
+        await updateTask(id, editedTitle, editedDescription);
+        setTimeout(function () {
+            createNotification("error");
+            fetchData();
+        }, 1000);
+    };
+
     const fetchData = async () => {
-        console.log("refetching data.....");
         const todoData = await getTodo();
         setTodoList(todoData);
     };
@@ -236,24 +232,20 @@ const Dashboard: React.FC = () => {
                                                 overflow: "auto",
                                             }}
                                         >
-                                            {/* todoList */}
-                                            {todoList.map((task, index) => {
-                                                return (
-                                                    <Card
-                                                        key={index}
-                                                        id={task.id}
-                                                        title={task.title}
-                                                        description={
-                                                            task.description
-                                                        }
-                                                        onDeleteClick={(id) => {
-                                                            handleDeleteCard(
-                                                                id
-                                                            );
-                                                        }} // Pass the delete callback
-                                                    />
-                                                );
-                                            })}
+                                            {todoList.map((task, index) => (
+                                                <Card
+                                                    key={index}
+                                                    id={task.id}
+                                                    title={task.title}
+                                                    description={
+                                                        task.description
+                                                    }
+                                                    onSaveEdit={handleSaveEdit} // Pass the save callback
+                                                    onDeleteClick={(id) => {
+                                                        handleDeleteCard(id);
+                                                    }}
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
