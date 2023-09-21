@@ -8,3 +8,11 @@
   border-radius: 15px;
   padding: 10px;
 }
+
+.editInput {
+  width: 70%;
+  height: 25px;
+  border-radius: 15px;
+  padding: 10px;
+  background-image: linear-gradient(to right, #c397e7, rgb(245, 245, 245));
+}
