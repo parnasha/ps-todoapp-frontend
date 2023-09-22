@@ -29,25 +29,30 @@ const Dashboard: React.FC = () => {
     };
 
     const router = useRouter();
+    //state for authentication of token
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
         null
     );
     //state using for title box
     const [title, setTitle] = useState("");
+    //state using for description box
     const [description, setDescription] = useState("");
+    // state using for getting todos
     const [todoList, setTodoList] = useState<TodoItem[]>([]);
 
     useEffect(() => {
+        // getting token after login
         const token = getToken();
+        // setting token is not equal to null
         setIsAuthenticated(token !== null);
-
+        // if there is no token it shows login page(home page)
         if (!token) {
             router.push("/");
         }
-
+        //for fetching data
         fetchData();
     }, []);
-
+    //  create notification alert function for adding,deleting and editing task
     const createNotification = (type: string) => {
         switch (type) {
             case "success":
@@ -74,34 +79,42 @@ const Dashboard: React.FC = () => {
                 break;
         }
     };
-
+    // logout function
     const handleLogout = () => {
         clearToken();
         router.push("/");
     };
-
+    // for adding task
     const handleAddTask = async () => {
         try {
+            //adding task
             await addTask(title, description);
             setTimeout(function () {
+                // creating notification alert for adding task
                 createNotification("success");
+                // after adding task, fetch data;
                 fetchData();
             }, 1000);
+
+            // clear the title and description area
             setTitle("");
             setDescription("");
         } catch (error) {
             console.error("An error occurred:", error);
         }
     };
-
+    // for deleting tasks
     const handleDeleteCard = async (id: string) => {
+        // recieving id from each task and delete them
         await deleteTask(id);
         setTimeout(function () {
+            //notification alert for deleting task
             createNotification("error");
+            // after deleted tasks refetching the data
             fetchData();
         }, 1000);
     };
-
+    // check function for checking todos is done or not
     const handleCheckTask = async (id: string, isDone: boolean) => {
         console.log(id, isDone);
         await checkTask(id, isDone);
@@ -110,19 +123,21 @@ const Dashboard: React.FC = () => {
             fetchData();
         }, 1000);
     };
-
+    // save the edited todos
     const handleSaveEdit = async (
         id: string,
         editedTitle: string,
         editedDescription: string
     ) => {
+        // after edit, update the task by recieving id, title and description
         await updateTask(id, editedTitle, editedDescription);
         setTimeout(function () {
             createNotification("warning");
+            // fetching  the updated data
             fetchData();
         }, 1000);
     };
-
+    //fetching data
     const fetchData = async () => {
         const todoData = await getTodo();
         setTodoList(todoData);
@@ -130,6 +145,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div>
+            {/* if authetication is null then Loading show else dashboard open */}
             {isAuthenticated === null ? (
                 <>Loading..</>
             ) : isAuthenticated ? (
@@ -169,6 +185,7 @@ const Dashboard: React.FC = () => {
                                             <div className="text-xl text-slate-400">
                                                 Parnasha
                                             </div>
+                                            {/* logout button */}
                                             <div
                                                 style={{
                                                     height: "40px",
@@ -234,20 +251,23 @@ const Dashboard: React.FC = () => {
                                                         className="bg-slate-100 border border-slate-300 rounded-md px-2 py-2"
                                                     />
                                                 </div>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    height: "40px",
-                                                    width: "90%",
-                                                    backgroundImage:
-                                                        "linear-gradient(to right, #643ED9 , #3A1EC7)",
-                                                }}
-                                                className="text-center text-white rounded-md my-4 mx-5 flex items-center justify-center cursor-pointer"
-                                                onClick={handleAddTask}
-                                            >
-                                                ADD TASK
+                                                {/* </div>
+                                            addtask button */}
+                                                <div
+                                                    style={{
+                                                        height: "40px",
+                                                        width: "90%",
+                                                        backgroundImage:
+                                                            "linear-gradient(to right, #643ED9 , #3A1EC7)",
+                                                    }}
+                                                    className="text-center text-white rounded-md my-4 mx-5 flex items-center justify-center cursor-pointer"
+                                                    onClick={handleAddTask}
+                                                >
+                                                    ADD TASK
+                                                </div>
                                             </div>
                                         </div>
+                                        {/* Card component */}
                                         <div
                                             className="col-span-3 rounded-md bg-white"
                                             style={{

@@ -14,7 +14,7 @@ const Registration = () => {
     // Define component state variables and error messages
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // const [newPassword, setNewPassword] = useState("");
+
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
     const [dob, setDob] = useState("");
